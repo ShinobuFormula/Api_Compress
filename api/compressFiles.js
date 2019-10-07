@@ -3,6 +3,8 @@ const archiver = require('archiver');
 
 function compress(path) {
 
+    console.log("Je me lance sans raison comme une folle");
+
     var output = fs.createWriteStream(__dirname + '/Folder_Test/archive.zip');
     var archive = archiver('zip');
 
@@ -35,7 +37,12 @@ function compress(path) {
 
     archive.pipe(output);
 
-    var file1 = __dirname + '/Folder_Test/FileToCompress.txt';
-    archive.append(fs.createReadStream(file1), { name: 'file1.txt' });
+    var file = __dirname + "/" + path;
+    var fileName = file.split('/');
+    archive.append(fs.createReadStream(file), { name: fileName[fileName.length-1] });
     archive.finalize();
 }
+
+module.exports = {
+    compress: compress,
+};

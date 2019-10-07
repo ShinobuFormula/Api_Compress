@@ -4,8 +4,6 @@ const getPath = require('./route/getPath');
 
 const app = express();
 
-const router = express.Router();
-
 app.use("/", getPath);
 
 app.listen(5000, ()=>{

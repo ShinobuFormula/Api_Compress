@@ -1,5 +1,5 @@
 const express = require('express');
-import{compress} from '../api/compressFiles'
+const compress = require('../api/compressFiles').compress;
 
 const router = express.Router();
 
