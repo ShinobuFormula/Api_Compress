@@ -1,11 +1,11 @@
 const fs = require('fs');
 const archiver = require('archiver');
 
-function compress(path) {
+function compress(paths, archiveName) {
 
-    console.log("Je me lance sans raison comme une folle");
+    var archivePath = __dirname + '\\Folder_Test\\' + archiveName;
 
-    var output = fs.createWriteStream(__dirname + '/Folder_Test/archive.zip');
+    var output = fs.createWriteStream(archivePath);
     var archive = archiver('zip');
 
     output.on('close', function() {
@@ -37,10 +37,16 @@ function compress(path) {
 
     archive.pipe(output);
 
-    var file = __dirname + "/" + path;
-    var fileName = file.split('/');
-    archive.append(fs.createReadStream(file), { name: fileName[fileName.length-1] });
+
+    paths.forEach((path) => {
+        let fileName = path[1].split('\\');
+        archive.append(fs.createReadStream(path[1]), { name: fileName[fileName.length-1] });
+
+    });
+
     archive.finalize();
+
+    return {archivePath}
 }
 
 module.exports = {
